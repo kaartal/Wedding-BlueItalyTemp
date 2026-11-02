@@ -1843,7 +1843,6 @@ const heroVid      = document.getElementById('heroVid');
 function warm(v) { try { v.preload = 'auto'; v.load(); } catch (e) {} }
 let warmedEnv = false, warmedHero = false;
 function warmHero() { if (warmedHero) return; warmedHero = true; warm(heroVid); }
-<<<<<<< HEAD
 function heroReady() { return !heroVid || heroVid.readyState >= 3 || heroVid.networkState === 3; }
 function whenHeroReady(cb, maxMs) {
   const t0 = Date.now();
@@ -1854,13 +1853,6 @@ function warmEnv() {
   warm(video);
   video.addEventListener('canplay', warmHero, { once: true });
   setTimeout(warmHero, 1500);
-=======
-function warmEnv() {
-  if (warmedEnv) return; warmedEnv = true;
-  warm(video);
-  video.addEventListener('canplaythrough', warmHero, { once: true });
-  setTimeout(warmHero, 2500);
->>>>>>> be84652509bf28e15318e29129f8b1889f896445
 }
 if (img.complete) warmEnv();
 else { img.addEventListener('load', warmEnv, { once: true }); img.addEventListener('error', warmEnv, { once: true }); }
@@ -1939,7 +1931,6 @@ loader.addEventListener('click', () => {
       document.body.classList.remove('loader-active');
     }, fade ? 650 : 0);
   }
-<<<<<<< HEAD
 
   bgMusic.play().then(() => fadeInMusic(3000)).catch(() => setMutedUI(true));
   setTimeout(() => {
@@ -1964,30 +1955,6 @@ loader.addEventListener('click', () => {
     }, 1400);
   }, { once: true });
 
-=======
-
-  bgMusic.play().then(() => fadeInMusic(3000)).catch(() => setMutedUI(true));
-  setTimeout(() => {
-    musicToggle.classList.add('visible');
-    document.getElementById('langToggle').classList.add('visible');
-  }, 3200);
-
-  let started = false;
-  video.addEventListener('playing', () => {
-    if (started || closed) return;
-    started = true;
-    video.style.transition = 'opacity 0.6s ease';
-    video.style.opacity    = '1';
-    setTimeout(() => { img.style.opacity = '0'; }, 300);
-    setTimeout(() => {
-      video.style.transition = 'opacity 1s ease, filter 1s ease';
-      video.style.opacity    = '0';
-      video.style.filter     = 'blur(20px)';
-    }, 1400);
-    setTimeout(() => closeLoader(false), 2600);
-  }, { once: true });
-
->>>>>>> be84652509bf28e15318e29129f8b1889f896445
   video.addEventListener('error', () => closeLoader(true), { once: true });
   video.play().catch(() => closeLoader(true));
   setTimeout(() => { if (!started) closeLoader(true); }, 7000);
@@ -2116,28 +2083,6 @@ const flowerObs = new IntersectionObserver(entries => {
 
 const flowerTarget = document.querySelector('#details-section');
 if (flowerTarget) flowerObs.observe(flowerTarget);
-</script>
-<script id="_spinfix">
-(function(){
-  var tap = document.getElementById('envelopeLoader') || document.getElementById('splash-image');
-  var vid = document.getElementById('envelopeVideo') || document.getElementById('splash-video');
-  if (!tap || !vid) return;
-  var sp = null;
-  function removeSp(){ if (sp && sp.parentNode) sp.parentNode.removeChild(sp); sp = null; }
-  tap.addEventListener('click', function(){
-    setTimeout(function(){
-      if (vid.currentTime > 0 && !vid.paused) return;
-      var st = document.createElement('style');
-      st.textContent = '@keyframes _sp{to{transform:rotate(360deg)}}';
-      document.head.appendChild(st);
-      sp = document.createElement('div');
-      sp.style.cssText = 'position:fixed;left:50%;bottom:14%;width:34px;height:34px;margin-left:-17px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:_sp .8s linear infinite;z-index:2147483000;pointer-events:none;';
-      document.body.appendChild(sp);
-      vid.addEventListener('playing', removeSp, { once: true });
-      setTimeout(removeSp, 7050);
-    }, 350);
-  }, { once: true });
-})();
 </script>
 </body>
 </html>
